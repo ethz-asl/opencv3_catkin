@@ -9,10 +9,20 @@ include(ExternalProject)
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
+SET(CONTRIB_NAME "opencv3_contrib")
+ExternalProject_Add(${CONTRIB_NAME}
+  URL https://github.com/opencv/opencv_contrib/archive/3.1.0.zip
+  UPDATE_COMMAND ""
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND ""
+  INSTALL_COMMAND ""
+)
+
 ExternalProject_Add(opencv3_src
   URL https://github.com/Itseez/opencv/archive/3.1.0.zip
   UPDATE_COMMAND ""
   CONFIGURE_COMMAND cd ../opencv3_src && cmake
+    -DOPENCV_EXTRA_MODULES_PATH=../../../${CONTRIB_NAME}-prefix/src/${CONTRIB_NAME}/modules .
     -DWITH_TBB=ON
     -DBUILD_NEW_PYTHON_SUPPORT=ON
     -DWITH_V4L=ON
@@ -29,6 +39,7 @@ ExternalProject_Add(opencv3_src
     -DWITH_OPENCL=OFF
     -DBUILD_opencv_gpu=OFF
     -DBUILD_opencv_ts=OFF
+    -DBUILD_opencv_hdf=OFF
     -DBUILD_TESTS=OFF -DBUILD_opencv_ts=OFF .
   BUILD_COMMAND cd ../opencv3_src && make -j8
   INSTALL_COMMAND cd ../opencv3_src && make install -j8
