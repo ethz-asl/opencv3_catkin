@@ -12,17 +12,21 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 SET(CONTRIB_NAME "opencv3_contrib")
 ExternalProject_Add(${CONTRIB_NAME}
   URL https://github.com/opencv/opencv_contrib/archive/3.1.0.zip
+  SOURCE_DIR ${CONTRIB_NAME}_src
   UPDATE_COMMAND ""
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
   INSTALL_COMMAND ""
 )
 
+SET(OPENCV_SRC_PATH "opencv3_src")
 ExternalProject_Add(opencv3_src
   URL https://github.com/Itseez/opencv/archive/3.1.0.zip
   UPDATE_COMMAND ""
-  CONFIGURE_COMMAND cd ../opencv3_src && cmake
-    -DOPENCV_EXTRA_MODULES_PATH=../../../${CONTRIB_NAME}-prefix/src/${CONTRIB_NAME}/modules .
+  SOURCE_DIR ${OPENCV_SRC_PATH}
+  BINARY_DIR opencv3_build
+  CONFIGURE_COMMAND cd ../${OPENCV_SRC_PATH} && cmake
+    -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
     -DBUILD_NEW_PYTHON_SUPPORT=ON
     -DWITH_V4L=ON
@@ -41,8 +45,8 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_ts=OFF
     -DBUILD_opencv_hdf=OFF
     -DBUILD_TESTS=OFF -DBUILD_opencv_ts=OFF .
-  BUILD_COMMAND cd ../opencv3_src && make -j8
-  INSTALL_COMMAND cd ../opencv3_src && make install -j8
+  BUILD_COMMAND cd ../${OPENCV_SRC_PATH} && make -j8
+  INSTALL_COMMAND cd ../${OPENCV_SRC_PATH} && make install -j8
 )
 
 cs_add_library(${PROJECT_NAME} src/dependency_tracker.cc)
@@ -51,12 +55,6 @@ target_link_libraries(${PROJECT_NAME}
   ${CATKIN_DEVEL_PREFIX}/lib/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
 
 cs_install()
-install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/opencv3
-  DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.hpp"
-  PATTERN "*.h"
-  PATTERN ".svn" EXCLUDE
-)
 
 cs_export(
   INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
