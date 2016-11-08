@@ -28,7 +28,8 @@ ExternalProject_Add(opencv3_src
   CONFIGURE_COMMAND cd ../${OPENCV_SRC_PATH} && cmake
     -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
-    -DBUILD_NEW_PYTHON_SUPPORT=OFF
+    -DBUILD_opencv_python2=OFF
+    -DBUILD_opencv_python3=OFF
     -DWITH_V4L=ON
     -DINSTALL_C_EXAMPLES=OFF
     -DINSTALL_PYTHON_EXAMPLES=OFF
@@ -41,7 +42,6 @@ ExternalProject_Add(opencv3_src
     -DBUILD_SHARED_LIBS=ON
     -DWITH_CUDA=OFF
     -DWITH_OPENCL=OFF
-    -DBUILD_opencv_gpu=OFF
     -DBUILD_opencv_ts=OFF
     -DBUILD_opencv_hdf=OFF
     -DBUILD_TESTS=OFF -DBUILD_opencv_ts=OFF .
