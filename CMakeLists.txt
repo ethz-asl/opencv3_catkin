@@ -25,10 +25,11 @@ ExternalProject_Add(opencv3_src
   UPDATE_COMMAND ""
   SOURCE_DIR ${OPENCV_SRC_PATH}
   BINARY_DIR opencv3_build
+  PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/fix_python_discovery.patch
   CONFIGURE_COMMAND cd ../${OPENCV_SRC_PATH} && cmake
     -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
-    -DBUILD_opencv_python2=OFF
+    -DBUILD_opencv_python2=ON
     -DBUILD_opencv_python3=OFF
     -DWITH_V4L=ON
     -DINSTALL_C_EXAMPLES=OFF
