@@ -21,6 +21,7 @@ ExternalProject_Add(${CONTRIB_NAME}
 
 SET(OPENCV_SRC_PATH "opencv3_src")
 ExternalProject_Add(opencv3_src
+  DEPENDS ${CONTRIB_NAME}
   URL https://github.com/Itseez/opencv/archive/3.1.0.zip
   UPDATE_COMMAND ""
   SOURCE_DIR ${OPENCV_SRC_PATH}
