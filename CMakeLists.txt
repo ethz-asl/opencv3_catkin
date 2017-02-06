@@ -69,7 +69,7 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_optflow=OFF
     -DBUILD_opencv_plot=OFF
     -DBUILD_opencv_reg=OFF
-    -DBUILD_opencv_rgbd=OFF
+    -DBUILD_opencv_rgbd=ON
     -DBUILD_opencv_saliency=OFF
     -DBUILD_opencv_sfm=OFF
     -DBUILD_opencv_stereo=OFF
