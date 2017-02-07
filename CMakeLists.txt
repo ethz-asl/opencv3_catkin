@@ -46,9 +46,41 @@ ExternalProject_Add(opencv3_src
     -DBUILD_SHARED_LIBS=ON
     -DWITH_CUDA=OFF
     -DWITH_OPENCL=OFF
+    -DBUILD_TESTS=OFF
     -DBUILD_opencv_ts=OFF
+    -DBUILD_TESTS=OFF
+    # opencv_contrib packages
+    -DBUILD_opencv_dnn=OFF # Pulls in the system protobuf as a dependency!
+    -DBUILD_opencv_dnns_easily_fooled=OFF
+    -DBUILD_opencv_cnn_3dobj=OFF
+    -DBUILD_opencv_aruco=OFF
+    -DBUILD_opencv_bgsegm=OFF
+    -DBUILD_opencv_bioinspired=OFF
+    -DBUILD_opencv_ccalib=OFF
+    -DBUILD_opencv_contrib_world=OFF
+    -DBUILD_opencv_datasets=OFF
+    -DBUILD_opencv_dpm=OFF
+    -DBUILD_opencv_face=OFF
+    -DBUILD_opencv_fuzzy=OFF
+    -DBUILD_opencv_freetype=OFF
     -DBUILD_opencv_hdf=OFF
-    -DBUILD_TESTS=OFF -DBUILD_opencv_ts=OFF .
+    -DBUILD_opencv_line_descriptor=OFF
+    -DBUILD_opencv_matlab=OFF
+    -DBUILD_opencv_optflow=OFF
+    -DBUILD_opencv_plot=OFF
+    -DBUILD_opencv_reg=OFF
+    -DBUILD_opencv_rgbd=ON
+    -DBUILD_opencv_saliency=OFF
+    -DBUILD_opencv_sfm=OFF
+    -DBUILD_opencv_stereo=OFF
+    -DBUILD_opencv_structured_light=OFF
+    -DBUILD_opencv_surface_matching=OFF
+    -DBUILD_opencv_text=OFF
+    -DBUILD_opencv_tracking=OFF
+    -DBUILD_opencv_xfeatures2d=ON
+    -DBUILD_opencv_ximgproc=OFF
+    -DBUILD_opencv_xobjdetect=OFF
+    -DBUILD_opencv_xphoto=OFF .
   BUILD_COMMAND cd ../${OPENCV_SRC_PATH} && make -j8
   INSTALL_COMMAND cd ../${OPENCV_SRC_PATH} && make install -j8
 )
