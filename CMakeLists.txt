@@ -70,7 +70,7 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_plot=OFF
     -DBUILD_opencv_reg=OFF
     -DBUILD_opencv_rgbd=ON
-    -DBUILD_opencv_saliency=OFF
+    -DBUILD_opencv_saliency=ON
     -DBUILD_opencv_sfm=OFF
     -DBUILD_opencv_stereo=OFF
     -DBUILD_opencv_structured_light=OFF
