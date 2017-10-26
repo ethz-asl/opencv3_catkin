@@ -34,6 +34,7 @@ ExternalProject_Add(opencv3_src
     -DWITH_TBB=ON
     -DBUILD_opencv_python2=ON
     -DBUILD_opencv_python3=OFF
+    -DWITH_GTK_2_X=ON  # Can't use GTK3 as it links against system protobuf.
     -DWITH_V4L=ON
     -DINSTALL_C_EXAMPLES=OFF
     -DINSTALL_PYTHON_EXAMPLES=OFF
