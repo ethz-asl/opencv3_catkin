@@ -11,8 +11,8 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 SET(CONTRIB_NAME "opencv3_contrib")
 ExternalProject_Add(${CONTRIB_NAME}
-  URL https://github.com/opencv/opencv_contrib/archive/3.4.1.zip
-  URL_MD5 a255639242d58dd7e329556d43f2c316
+  URL https://github.com/opencv/opencv_contrib/archive/3.2.0.zip
+  URL_MD5 423237bccd1c6e0a5edd812823fb4237
   SOURCE_DIR ${CONTRIB_NAME}_src
   UPDATE_COMMAND ""
   CONFIGURE_COMMAND ""
@@ -21,15 +21,16 @@ ExternalProject_Add(${CONTRIB_NAME}
 )
 
 SET(OPENCV_SRC_PATH "opencv3_src")
-SET(OPENCV_BUILD_PATH "opencv3_build")
 ExternalProject_Add(opencv3_src
-  URL https://github.com/opencv/opencv/archive/3.4.1.zip
-  URL_MD5 8464ce888f4c283895626950bada1e44
   DEPENDS ${CONTRIB_NAME}
+  URL https://github.com/Itseez/opencv/archive/3.2.0.zip
+  URL_MD5 bfc6a261eb069b709bcfe7e363ef5899
   UPDATE_COMMAND ""
   SOURCE_DIR ${OPENCV_SRC_PATH}
-  BINARY_DIR ${OPENCV_BUILD_PATH}
-  CONFIGURE_COMMAND cd ../${OPENCV_BUILD_PATH} && cmake
+  BINARY_DIR opencv3_build
+  PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/fix_python_discovery.patch &&
+                patch -p0 < ${CMAKE_SOURCE_DIR}/fix_lapack.patch
+  CONFIGURE_COMMAND cd ../${OPENCV_SRC_PATH} && cmake
     -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
     -DBUILD_opencv_python2=ON
@@ -54,7 +55,7 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_dnn=OFF # Pulls in the system protobuf as a dependency!
     -DBUILD_opencv_dnns_easily_fooled=OFF
     -DBUILD_opencv_cnn_3dobj=OFF
-    -DBUILD_opencv_aruco=ON
+    -DBUILD_opencv_aruco=OFF
     -DBUILD_opencv_bgsegm=OFF
     -DBUILD_opencv_bioinspired=OFF
     -DBUILD_opencv_ccalib=OFF
@@ -81,9 +82,9 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_xfeatures2d=ON
     -DBUILD_opencv_ximgproc=OFF
     -DBUILD_opencv_xobjdetect=OFF
-    -DBUILD_opencv_xphoto=OFF ../${OPENCV_SRC_PATH}
-  BUILD_COMMAND cd ../${OPENCV_BUILD_PATH} && make -j8
-  INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j8
+    -DBUILD_opencv_xphoto=OFF .
+  BUILD_COMMAND cd ../${OPENCV_SRC_PATH} && make -j8
+  INSTALL_COMMAND cd ../${OPENCV_SRC_PATH} && make install -j8
 )
 
 cs_add_library(${PROJECT_NAME} src/dependency_tracker.cc)
