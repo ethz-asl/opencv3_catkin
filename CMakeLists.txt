@@ -20,7 +20,6 @@ ExternalProject_Add(${CONTRIB_NAME}
   INSTALL_COMMAND ""
 )
 
-
 SET(OPENCV_SRC_PATH "opencv3_src")
 SET(OPENCV_BUILD_PATH "opencv3_build")
 ExternalProject_Add(opencv3_src
@@ -86,7 +85,6 @@ ExternalProject_Add(opencv3_src
   BUILD_COMMAND cd ../${OPENCV_BUILD_PATH} && make -j8
   INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j8
 )
-
 
 cs_add_library(${PROJECT_NAME} src/dependency_tracker.cc)
 add_dependencies(${PROJECT_NAME} opencv3_src)
