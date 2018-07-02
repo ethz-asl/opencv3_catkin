@@ -87,13 +87,39 @@ ExternalProject_Add(opencv3_src
   INSTALL_COMMAND cd ../${OPENCV_SRC_PATH} && make install -j8
 )
 
-cs_add_library(${PROJECT_NAME} src/dependency_tracker.cc)
-add_dependencies(${PROJECT_NAME} opencv3_src)
-target_link_libraries(${PROJECT_NAME}
-  ${CATKIN_DEVEL_PREFIX}/lib/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
-
-cs_install()
-
-cs_export(
-  INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
-CFG_EXTRAS opencv3-extras.cmake)
+install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/opencv
+        DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
+        FILES_MATCHING PATTERN "*.h"
+                       PATTERN "*.hpp")
+install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/opencv2
+        DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
+        FILES_MATCHING PATTERN "*.h"
+                       PATTERN "*.hpp")
+install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib/
+        DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        FILES_MATCHING PATTERN "libopencv*")
+install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/share/OpenCV
+        DESTINATION ${CATKIN_GLOBAL_SHARE_DESTINATION})
+cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
+          LIBRARIES opencv_calib3d
+                    opencv_core
+                    opencv_features2d
+                    opencv_flann
+                    opencv_highgui
+                    opencv_imgcodecs
+                    opencv_imgproc
+                    opencv_ml
+                    opencv_objdetect
+                    opencv_phase_unwrapping
+                    opencv_photo
+                    opencv_rgbd
+                    opencv_saliency
+                    opencv_shape
+                    opencv_stitching
+                    opencv_superres
+                    opencv_video
+                    opencv_videoio
+                    opencv_videostab
+                    opencv_vix
+                    opencv_xfeatures2d
+)
