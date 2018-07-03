@@ -100,6 +100,24 @@ install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib/
         FILES_MATCHING PATTERN "libopencv*")
 install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/share/OpenCV
         DESTINATION ${CATKIN_GLOBAL_SHARE_DESTINATION})
+set(OPENCV_INSTALLED_EXECUTABLES
+    opencv_annotation
+    opencv_createsamples
+    opencv_traincascade
+    opencv_version
+    opencv_visualisation
+)
+
+foreach(installed_file ${OPENCV_INSTALLED_EXECUTABLES})
+  # Need to rename binaries as they will conflict with the binaries from
+  # the ROS OpenCV package otherwise.
+  string(REPLACE opencv opencv3_catkin new_file_name ${installed_file} )
+  install(FILES ${CATKIN_DEVEL_PREFIX}/bin/${installed_file}
+          RENAME ${new_file_name}
+          PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+          DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
+endforeach()
+
 cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
           LIBRARIES opencv_calib3d
                     opencv_core
@@ -120,6 +138,6 @@ cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
                     opencv_video
                     opencv_videoio
                     opencv_videostab
-                    opencv_vix
+                    opencv_viz
                     opencv_xfeatures2d
 )
