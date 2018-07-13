@@ -87,10 +87,18 @@ ExternalProject_Add(opencv3_src
   INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j8
 )
 
+
 cs_add_library(${PROJECT_NAME} src/dependency_tracker.cc)
 add_dependencies(${PROJECT_NAME} opencv3_src)
-target_link_libraries(${PROJECT_NAME}
-  ${CATKIN_DEVEL_PREFIX}/lib/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
+execute_process(COMMAND lsb_release -r OUTPUT_VARIABLE UBUNTU_RELEASE)
+# This can be removed once Ubuntu 14.04 is no longer supported.
+if("${UBUNTU_RELEASE}" MATCHES "14.04")
+  target_link_libraries(${PROJECT_NAME}
+    ${CATKIN_DEVEL_PREFIX}/lib/x86_64-linux-gnu/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
+else()
+  target_link_libraries(${PROJECT_NAME}
+    ${CATKIN_DEVEL_PREFIX}/lib/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
 
 cs_install()
 
