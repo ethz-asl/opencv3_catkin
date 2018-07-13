@@ -11,8 +11,8 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 SET(CONTRIB_NAME "opencv3_contrib")
 ExternalProject_Add(${CONTRIB_NAME}
-  URL https://github.com/opencv/opencv_contrib/archive/3.2.0.zip
-  URL_MD5 423237bccd1c6e0a5edd812823fb4237
+  URL https://github.com/opencv/opencv_contrib/archive/3.4.2.zip
+  URL_MD5 171a0c9eabbdc3332164de6221684beb
   SOURCE_DIR ${CONTRIB_NAME}_src
   UPDATE_COMMAND ""
   CONFIGURE_COMMAND ""
@@ -21,16 +21,16 @@ ExternalProject_Add(${CONTRIB_NAME}
 )
 
 SET(OPENCV_SRC_PATH "opencv3_src")
+SET(OPENCV_BUILD_PATH "opencv3_build")
 ExternalProject_Add(opencv3_src
+  URL https://github.com/opencv/opencv/archive/3.4.2.zip
+  URL_MD5 9e9ebe9c1fe98c468f6e53f5c3c49716
   DEPENDS ${CONTRIB_NAME}
-  URL https://github.com/Itseez/opencv/archive/3.2.0.zip
-  URL_MD5 bfc6a261eb069b709bcfe7e363ef5899
   UPDATE_COMMAND ""
   SOURCE_DIR ${OPENCV_SRC_PATH}
-  BINARY_DIR opencv3_build
-  PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/fix_python_discovery.patch &&
-                patch -p0 < ${CMAKE_SOURCE_DIR}/fix_lapack.patch
-  CONFIGURE_COMMAND cd ../${OPENCV_SRC_PATH} && cmake
+  BINARY_DIR ${OPENCV_BUILD_PATH}
+  PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/fix_python_discovery.patch
+  CONFIGURE_COMMAND cd ../${OPENCV_BUILD_PATH} && cmake
     -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
     -DBUILD_opencv_python2=ON
@@ -55,7 +55,7 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_dnn=OFF # Pulls in the system protobuf as a dependency!
     -DBUILD_opencv_dnns_easily_fooled=OFF
     -DBUILD_opencv_cnn_3dobj=OFF
-    -DBUILD_opencv_aruco=OFF
+    -DBUILD_opencv_aruco=ON
     -DBUILD_opencv_bgsegm=OFF
     -DBUILD_opencv_bioinspired=OFF
     -DBUILD_opencv_ccalib=OFF
@@ -82,15 +82,22 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_xfeatures2d=ON
     -DBUILD_opencv_ximgproc=OFF
     -DBUILD_opencv_xobjdetect=OFF
-    -DBUILD_opencv_xphoto=OFF .
-  BUILD_COMMAND cd ../${OPENCV_SRC_PATH} && make -j8
-  INSTALL_COMMAND cd ../${OPENCV_SRC_PATH} && make install -j8
+    -DBUILD_opencv_xphoto=OFF ../${OPENCV_SRC_PATH}
+  BUILD_COMMAND cd ../${OPENCV_BUILD_PATH} && make -j8
+  INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j8
 )
 
 cs_add_library(${PROJECT_NAME} src/dependency_tracker.cc)
 add_dependencies(${PROJECT_NAME} opencv3_src)
-target_link_libraries(${PROJECT_NAME}
-  ${CATKIN_DEVEL_PREFIX}/lib/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
+# This can be removed once Ubuntu 14.04 is no longer supported.
+execute_process(COMMAND lsb_release -rs OUTPUT_VARIABLE UBUNTU_RELEASE)
+if("${UBUNTU_RELEASE}" MATCHES "14.04")
+  target_link_libraries(${PROJECT_NAME}
+    ${CATKIN_DEVEL_PREFIX}/lib/x86_64-linux-gnu/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
+else()
+  target_link_libraries(${PROJECT_NAME}
+    ${CATKIN_DEVEL_PREFIX}/lib/libopencv_core${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
 
 cs_install()
 
