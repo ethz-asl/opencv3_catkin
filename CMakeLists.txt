@@ -80,7 +80,7 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_text=OFF
     -DBUILD_opencv_tracking=OFF
     -DBUILD_opencv_xfeatures2d=ON
-    -DBUILD_opencv_ximgproc=OFF
+    -DBUILD_opencv_ximgproc=ON
     -DBUILD_opencv_xobjdetect=OFF
     -DBUILD_opencv_xphoto=OFF .
   BUILD_COMMAND cd ../${OPENCV_SRC_PATH} && make -j8
