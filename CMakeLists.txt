@@ -66,7 +66,7 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_fuzzy=OFF
     -DBUILD_opencv_freetype=OFF
     -DBUILD_opencv_hdf=OFF
-    -DBUILD_opencv_line_descriptor=OFF
+    -DBUILD_opencv_line_descriptor=ON
     -DBUILD_opencv_matlab=OFF
     -DBUILD_opencv_optflow=OFF
     -DBUILD_opencv_plot=OFF
@@ -140,4 +140,6 @@ cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
                     opencv_videostab
                     opencv_viz
                     opencv_xfeatures2d
+                    opencv_ximgproc
+                    opencv_line_descriptor
 )
