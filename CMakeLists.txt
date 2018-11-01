@@ -34,7 +34,7 @@ ExternalProject_Add(opencv3_src
     -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
     -DBUILD_opencv_python2=ON
-    -DBUILD_opencv_python3=OFF
+    -DBUILD_opencv_python3=ON
     -DWITH_GTK_2_X=ON  # Can't use GTK3 as it links against system protobuf.
     -DWITH_V4L=ON
     -DINSTALL_C_EXAMPLES=OFF
@@ -66,7 +66,7 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_fuzzy=OFF
     -DBUILD_opencv_freetype=OFF
     -DBUILD_opencv_hdf=OFF
-    -DBUILD_opencv_line_descriptor=OFF
+    -DBUILD_opencv_line_descriptor=ON
     -DBUILD_opencv_matlab=OFF
     -DBUILD_opencv_optflow=OFF
     -DBUILD_opencv_plot=OFF
@@ -80,8 +80,9 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_text=OFF
     -DBUILD_opencv_tracking=OFF
     -DBUILD_opencv_xfeatures2d=ON
-    -DBUILD_opencv_ximgproc=OFF
+    -DBUILD_opencv_ximgproc=ON
     -DBUILD_opencv_xobjdetect=OFF
+    -DBUILD_opencv_nonfree=OFF
     -DBUILD_opencv_xphoto=OFF ../${OPENCV_SRC_PATH}
   BUILD_COMMAND cd ../${OPENCV_BUILD_PATH} && make -j8
   INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j8
@@ -127,6 +128,7 @@ cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
                     opencv_highgui
                     opencv_imgcodecs
                     opencv_imgproc
+                    opencv_line_descriptor
                     opencv_ml
                     opencv_objdetect
                     opencv_phase_unwrapping
@@ -141,4 +143,5 @@ cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
                     opencv_videostab
                     opencv_viz
                     opencv_xfeatures2d
+                    opencv_ximgproc
 )
