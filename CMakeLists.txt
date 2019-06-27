@@ -30,7 +30,6 @@ ExternalProject_Add(opencv3_src
   SOURCE_DIR ${OPENCV_SRC_PATH}
   BINARY_DIR ${OPENCV_BUILD_PATH}
   PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/fix_python_discovery.patch &&
-                patch -p0 < ${CMAKE_SOURCE_DIR}/fix_lapack.patch &&
 		patch -p0 < ${CMAKE_SOURCE_DIR}/fix_ccache.patch &&
                 patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/rename_unordered_map_definition.patch
   CONFIGURE_COMMAND cd ../${OPENCV_BUILD_PATH} && cmake
