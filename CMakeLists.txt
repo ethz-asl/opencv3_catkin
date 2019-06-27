@@ -29,7 +29,8 @@ ExternalProject_Add(opencv3_src
   SOURCE_DIR ${OPENCV_SRC_PATH}
   BINARY_DIR opencv3_build
   PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/fix_python_discovery.patch &&
-                patch -p0 < ${CMAKE_SOURCE_DIR}/fix_lapack.patch
+                patch -p0 < ${CMAKE_SOURCE_DIR}/fix_lapack.patch &&
+		patch -p0 < ${CMAKE_SOURCE_DIR}/fix_ccache.patch
   CONFIGURE_COMMAND cd ../${OPENCV_SRC_PATH} && cmake
     -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
