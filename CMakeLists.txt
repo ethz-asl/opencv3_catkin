@@ -37,6 +37,8 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_python2=ON
     -DBUILD_opencv_python3=ON
     -DWITH_GTK_2_X=ON  # Can't use GTK3 as it links against system protobuf.
+    -DWITH_PROTOBUF=OFF # Disable custom build of protobuf, since starting with OpenCV 3.4.2 a custom version of
+                        # protobuf is always pulled and compiled, even if no enabled modules use it.
     -DWITH_V4L=ON
     -DINSTALL_C_EXAMPLES=OFF
     -DINSTALL_PYTHON_EXAMPLES=OFF
