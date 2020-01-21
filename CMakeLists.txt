@@ -32,7 +32,7 @@ ExternalProject_Add(opencv3_src
   PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/fix_python_discovery.patch &&
                 patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/rename_unordered_map_definition.patch
   CONFIGURE_COMMAND cd ../${OPENCV_BUILD_PATH} && cmake
-    -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
+    -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules
     -DWITH_TBB=ON
     -DBUILD_opencv_python2=ON
     -DBUILD_opencv_python3=ON
