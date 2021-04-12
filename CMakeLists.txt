@@ -14,7 +14,8 @@ ExternalProject_Add(${CONTRIB_NAME}
   URL https://github.com/opencv/opencv_contrib/archive/3.4.2.zip
   URL_MD5 171a0c9eabbdc3332164de6221684beb
   SOURCE_DIR ${CONTRIB_NAME}_src
-  UPDATE_COMMAND ""
+  # remove sfm folder since it's not used and causes dependency issues
+  UPDATE_COMMAND rm -rf modules/sfm
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
   INSTALL_COMMAND ""
@@ -47,6 +48,7 @@ ExternalProject_Add(opencv3_src
     -DWITH_OPENGL=ON
     -DWITH_VTK=ON
     -DENABLE_PRECOMPILED_HEADERS=OFF
+    -DBUILD_opencv_sfm=OFF
     -DCMAKE_INSTALL_PREFIX=${CATKIN_DEVEL_PREFIX}
     -DBUILD_SHARED_LIBS=ON
     -DWITH_CUDA=OFF
@@ -76,7 +78,6 @@ ExternalProject_Add(opencv3_src
     -DBUILD_opencv_reg=OFF
     -DBUILD_opencv_rgbd=ON
     -DBUILD_opencv_saliency=ON
-    -DBUILD_opencv_sfm=OFF
     -DBUILD_opencv_stereo=OFF
     -DBUILD_opencv_structured_light=OFF
     -DBUILD_opencv_surface_matching=OFF
